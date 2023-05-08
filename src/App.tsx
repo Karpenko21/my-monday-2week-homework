@@ -1,7 +1,9 @@
 import React, {MouseEvent, useState} from 'react';
 import './App.css';
 import {Todolist} from './Todolist';
-import {FullInput} from "./Components/FullInput";
+/*import {FullInput} from "./Components/FullInput";*/
+import {Input} from "./Components/Input";
+import {Button} from "./Components/Button";
 
 export type FilterValuesType = "all" | "active" | "completed" | "first three tasks"
 
@@ -41,6 +43,8 @@ function App() {
         {message: 'message2'},
         {message: 'message3'},
     ])
+    let [title, setTitle] = useState('')
+    console.log(title)
 
     function removeTask(id: number) {
         let filteredTasks = tasks.filter(t => t.id != id);
@@ -77,6 +81,11 @@ function App() {
         let newMessage = {message: title}
         setMessage([newMessage, ...message])
     }
+    const callBackButtonHandler =() =>{
+        addMessage(title)
+        setTitle('')
+    }
+
 
     return (
         <div className="App">
@@ -90,15 +99,19 @@ function App() {
                 <input/>
                 <button>+</button>
             </div>*/}
-            <FullInput
-                addMessage={addMessage}/>
+            {/*  <FullInput
+                addMessage={addMessage}/>*/}
+            <Input setTitle={setTitle}
+                   title={title}/>
+            <Button
+                name={"+"}
+                callBack={callBackButtonHandler}
+            />
             {message.map((el, index) => {
                 return (
-                    <ul key={index}>
-                        <li>
-                            {el.message}
-                        </li>
-                    </ul>
+                    <div key={index}>
+                        {el.message}
+                    </div>
                 )
             })}
         </div>
