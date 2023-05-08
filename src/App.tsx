@@ -1,6 +1,7 @@
-import React, {useState} from 'react';
+import React, {MouseEvent, useState} from 'react';
 import './App.css';
 import {Todolist} from './Todolist';
+import {FullInput} from "./Components/FullInput";
 
 export type FilterValuesType = "all" | "active" | "completed" | "first three tasks"
 
@@ -35,13 +36,20 @@ function App() {
         {id: 5, title: "GraphQL", isDone: false},
     ]);
 
+    let [message, setMessage] = useState([
+        {message: 'message1'},
+        {message: 'message2'},
+        {message: 'message3'},
+    ])
+
     function removeTask(id: number) {
         let filteredTasks = tasks.filter(t => t.id != id);
         setTasks(filteredTasks);
     }
-    function deleteAllTasks () {
-            setTasks([]);
-        }
+
+    function deleteAllTasks() {
+        setTasks([]);
+    }
 
 
     /*let [filter, setFilter] = useState<FilterValuesType>("all");
@@ -65,14 +73,34 @@ function App() {
         setFilter(value);
     }*/
 
+    const addMessage = (title: string) => {
+        let newMessage = {message: title}
+        setMessage([newMessage, ...message])
+    }
+
     return (
         <div className="App">
             <Todolist title="What to learn"
                       tasks={tasks}
                       removeTask={removeTask}
-                      /*changeFilter={changeFilter}*/
+                /*changeFilter={changeFilter}*/
                       deleteAllTasks={deleteAllTasks}
             />
+            {/*<div>
+                <input/>
+                <button>+</button>
+            </div>*/}
+            <FullInput
+                addMessage={addMessage}/>
+            {message.map((el, index) => {
+                return (
+                    <ul key={index}>
+                        <li>
+                            {el.message}
+                        </li>
+                    </ul>
+                )
+            })}
         </div>
     )
 }
